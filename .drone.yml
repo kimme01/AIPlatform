@@ -1,0 +1,19 @@
+---
+kind: pipeline
+type: docker
+name: Use Sonarqube
+steps:
+- name: Analyze code project
+  image: sijaymm/sonar-msbuild:latest
+  commands:
+     - dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:DotNetCore-Test-AI Platform-Sonar /o:"kimmeorganization" /d:sonar.host.url="https://sonarcloud.io/" /d:sonar.login="6509841033739cf258f50f3180198a1c9f9e0217"
+     - dotnet build
+     - dotnet /sonar-scanner/SonarScanner.MSBuild.dll end /d:sonar.login="6509841033739cf258f50f3180198a1c9f9e0217"
+  
+trigger:
+  branch:
+    include:
+      - develop
+  event:
+    include:
+      - push 
